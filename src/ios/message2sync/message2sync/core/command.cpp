@@ -10,11 +10,11 @@
 #include "SendRequest.hpp"
 #include "../bridger/wrapper.h"
 
-void sendGetRequest(const char *message) {
+const char* sendGetRequest(const char *message, const char *file) {
 	SendRequest sendRequest;
 
 	std::string msg = message;
-	msg = "1|" + msg;
-
-	sendRequest.sendpost(msg);
+	msg = "You: " + msg;
+	msg = sendRequest.sendpost(msg, file);
+	return strdup(msg.c_str());
 }

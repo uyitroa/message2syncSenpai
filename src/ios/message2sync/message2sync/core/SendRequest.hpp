@@ -10,7 +10,7 @@
 class SendRequest {
 public:
 	SendRequest();
-	void sendpost(std::string data, std::string url = "yuitorayuitora.localtunnel.me");
+	std::string sendpost(std::string data, std::string file, std::string url = "yuitorayuitora.localtunnel.me");
 };
 
 

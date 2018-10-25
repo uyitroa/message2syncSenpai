@@ -17,8 +17,24 @@
 
 SendRequest::SendRequest() = default;
 
-void SendRequest::sendpost(std::string data, std::string url) {
+void getImportant(std::string &mystring) {
+	for(int x = mystring.size() - 1; x >= 0; x--) {
+		if (mystring[x] == '\n' && mystring[x - 1] == '\r') {
+			mystring = mystring.substr(x + 1, mystring.size());
+			break;
+		}
+	}
+}
+
+
+std::string SendRequest::sendpost(std::string data, std::string file, std::string url) {
 	using namespace std;
+
+	ofstream myfile;
+	myfile.open(file, fstream::app);
+	myfile << data << "\n";
+	
+	
 	int sock;
 	struct sockaddr_in client;
 	int PORT = 80;
@@ -59,10 +75,16 @@ void SendRequest::sendpost(std::string data, std::string url) {
 		cout << "Error sending request." << endl;
 		exit(1);
 	}
-	
-	char cur;
-	while ( read(sock, &cur, 1) > 0 ) {
-		cout << cur;
-	}
 
+	char cur;
+	string mychar = "";
+	myfile << "Computer: ";
+	while ( read(sock, &cur, 1) > 0 ) {
+		mychar += cur;
+	}
+	getImportant(mychar);
+	myfile << mychar;
+	myfile << "\n";
+	myfile.close();
+	return mychar;
 }

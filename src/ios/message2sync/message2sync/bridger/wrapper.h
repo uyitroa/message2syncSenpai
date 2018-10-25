@@ -8,7 +8,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-	void sendGetRequest(const char *message);
+	const char* sendGetRequest(const char *message, const char *file);
 #ifdef __cplusplus
 }
 #endif
