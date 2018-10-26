@@ -34,7 +34,7 @@ class Manager {
 	func getRelevantLines() -> [String] {
 		let text = readData()
 		var myList = text.split(separator: "\n")
-		myList.append("")
+		myList.insert("", at: 0) // to prevent empty myList which leads error of `for`
 		var result = [String]()
 		// get the 5 last elements of list
 		for arrayIndex in (myList.count-1) * -1...0 {
