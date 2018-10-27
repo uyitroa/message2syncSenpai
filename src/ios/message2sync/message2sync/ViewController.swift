@@ -50,11 +50,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 		textField = message.createTextField()
 		textField.delegate = self
-		
+
 		for textview in textviews {
 			self.scrollView.addSubview(textview)
 			scrollView.contentSize.height += textview.frame.height
 		}
+		print("done")
 		scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height - screenHeight * 0.8)
 		self.view.addSubview(scrollView)
 		self.view.addSubview(textField)

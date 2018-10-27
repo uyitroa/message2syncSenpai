@@ -37,13 +37,18 @@ class Messages {
 	func createTextView() -> [UITextView] {
 		let lines = manager.getRelevantLines()
 		var mytextviews = [UITextView]()
-		for index in stride(from: lines.count - 1, to: 0, by: -1) {
+		var max: Int
+		if lines.count > 20 {
+			max = 20
+		} else {
+			max = lines.count - 1
+		}
+		for index in stride(from: max, to: 0, by: -1) {
 			var textview = UITextView()
 			setupTextView(&textview, lines[index], 0, staticHeight)
 			mytextviews.append(textview)
 			staticHeight += Int(textview.frame.height)
 		}
-		print(mytextviews[mytextviews.count - 1].center.y)
 		
 		return mytextviews
 	}
@@ -58,6 +63,7 @@ class Messages {
 		sampleTextField.clearButtonMode = UITextField.ViewMode.whileEditing;
 		sampleTextField.enablesReturnKeyAutomatically = true
 		sampleTextField.autocapitalizationType = .none
+		sampleTextField.smartQuotesType = .no
 		
 		let y = normalHeight
 		let x = screenWidth/2

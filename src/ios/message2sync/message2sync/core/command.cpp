@@ -14,6 +14,7 @@ const char* sendGetRequest(const char *message, const char *file) {
 	SendRequest sendRequest;
 
 	std::string msg = message;
+	msg = "You: " + msg;
 	msg = sendRequest.sendpost(msg, file);
 	return strdup(msg.c_str());
 }
