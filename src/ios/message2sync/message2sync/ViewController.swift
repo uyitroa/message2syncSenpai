@@ -32,13 +32,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	let screenWidth = UIScreen.main.bounds.width
 	let screenHeight = UIScreen.main.bounds.height
-
+	
+	var keyboardHidden = true
+	var keyboardSize = 0
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
 		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.025,width: screenWidth,height: screenHeight * 0.85)
 		scrollView.contentSize = CGSize(width: screenWidth,height: 0)
+		scrollView.keyboardDismissMode = .onDrag
 		
 		view.backgroundColor = .white
 
@@ -58,8 +62,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: self.view.window)
 		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: self.view.window)
 		
-//		pan.addTarget(self, action: #selector(ViewController.handlePan))
-//		self.view.addGestureRecognizer(pan)
 	}
 	
 	func getPath() -> [CChar] {
@@ -107,17 +109,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
 	
 	@objc func keyboardWillShow(_ notification: Notification) {
-		if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-			let keyboardRectangle = keyboardFrame.cgRectValue
+		if let localFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+			let keyboardRectangle = localFrame.cgRectValue
 			let keyboardHeight = keyboardRectangle.height
-			self.view.frame.origin.y -= keyboardHeight
+			self.view.frame.origin.y = -keyboardHeight
+			self.keyboardHidden = false
 		}
 	}
 	
 	@objc func keyboardWillHide(_ notification: Notification) {
 		self.view.frame.origin.y = 0
+		self.keyboardHidden = true
 	}
-
 
 }
 
