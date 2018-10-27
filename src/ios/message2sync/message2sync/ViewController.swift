@@ -29,6 +29,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	var textviews = [UITextView]()
 	let message = Messages()
 	let scrollView = UIScrollView()
+	let scrollKeyboard = UIScrollView()
 
 	let screenWidth = UIScreen.main.bounds.width
 	let screenHeight = UIScreen.main.bounds.height
@@ -40,9 +41,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
-		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.025,width: screenWidth,height: screenHeight * 0.85)
-		scrollView.contentSize = CGSize(width: screenWidth,height: 0)
-		scrollView.keyboardDismissMode = .onDrag
+		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.025, width: screenWidth, height: screenHeight * 0.85)
+		scrollView.contentSize = CGSize(width: screenWidth, height: 0)
+		
+		scrollKeyboard.frame = CGRect(x: 0, y: screenHeight * 0.8, width: screenWidth, height: screenHeight * 0.5)
+		scrollKeyboard.contentSize = CGSize(width: screenWidth, height: 0)
+
 		
 		view.backgroundColor = .white
 
@@ -55,13 +59,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			self.scrollView.addSubview(textview)
 			scrollView.contentSize.height += textview.frame.height
 		}
-		print("done")
 		scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height - screenHeight * 0.8)
-		self.view.addSubview(scrollView)
-		self.view.addSubview(textField)
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: self.view.window)
 		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: self.view.window)
+		
+		self.view.addSubview(scrollKeyboard)
+		self.view.addSubview(scrollView)
+		self.view.addSubview(textField)
 		
 	}
 	
@@ -103,11 +108,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		sendRequest(textField)
 		return true
 	}
-	
-	func textFieldDidEndEditing(_ textField: UITextField) {
-		sendRequest(textField)
-	}
-	
 	
 	@objc func keyboardWillShow(_ notification: Notification) {
 		if let localFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {

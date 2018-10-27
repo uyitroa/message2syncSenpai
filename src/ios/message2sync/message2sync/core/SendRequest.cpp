@@ -41,8 +41,7 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 	struct hostent *host = gethostbyname(url.c_str());
 	
 	if ( (host == NULL) || (host->h_addr == NULL) ) {
-		cout << "Error retrieving DNS information." << endl;
-		exit(1);
+		return "Error retrieving DNS information." ;
 	}
 	
 	bzero(&client, sizeof(client));
@@ -53,16 +52,13 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	
 	if (sock < 0) {
-		cout << "Error creating socket." << endl;
-		exit(1);
+		return "Error creating socket.";
 	}
 	
 	if ( connect(sock, (struct sockaddr *)&client, sizeof(client)) < 0 ) {
 		close(sock);
-		cout << "Could not connect" << endl;
-		exit(1);
+		return "Could not connect";
 	}
-	
 	stringstream ss;
 	ss << "GET /" << data.c_str() << "/" << " HTTP/1.1\r\n"
 	<< "Host: " << url.c_str() << "\r\n"
@@ -72,8 +68,7 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 	string request = ss.str();
 	
 	if (send(sock, request.c_str(), request.length(), 0) != (int)request.length()) {
-		cout << "Error sending request." << endl;
-		exit(1);
+		return "Error sending request.";
 	}
 
 	char cur;
