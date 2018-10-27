@@ -32,7 +32,7 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 
 	ofstream myfile;
 	myfile.open(file, fstream::app);
-	myfile << data << "\n";
+	myfile << "You: " << data << "\n";
 	
 	
 	int sock;
