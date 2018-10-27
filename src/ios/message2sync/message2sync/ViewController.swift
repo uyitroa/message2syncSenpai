@@ -28,16 +28,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	var textField = UITextField()
 	var textviews = [UITextView]()
 	let message = Messages()
-	var currentVelocity = 0
-
 	let scrollView = UIScrollView()
+
+	let screenWidth = UIScreen.main.bounds.width
+	let screenHeight = UIScreen.main.bounds.height
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
-		scrollView.frame = CGRect(x: 0, y: 0,width: self.view.frame.size.width,height: self.view.frame.size.height * 0.85)
-		scrollView.contentSize = CGSize(width: self.view.frame.size.width ,height: 0)
+		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.025,width: screenWidth,height: screenHeight * 0.85)
+		scrollView.contentSize = CGSize(width: screenWidth,height: 0)
 		
 		view.backgroundColor = .white
 
@@ -50,7 +51,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			self.scrollView.addSubview(textview)
 			scrollView.contentSize.height += textview.frame.height
 		}
-		scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height - self.view.frame.height + self.view.frame.height * 0.2)
+		scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height - screenHeight * 0.8)
 		self.view.addSubview(scrollView)
 		self.view.addSubview(textField)
 		
@@ -70,11 +71,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 	func addTextView(_ text : String) {
 		var textview = UITextView()
-		let reference = textviews[textviews.count - 1]
-		message.setupTextView(&textview, text, 0, Int(scrollView.contentSize.height))
+		message.setupTextView(&textview, text, 0, message.staticHeight)
+		message.staticHeight += Int(textview.frame.height)
+		
+		scrollView.contentSize.height += textview.frame.height
+		scrollView.contentOffset.y += textview.frame.height
+
 		textviews.append(textview)
-		scrollView.contentSize.height += reference.frame.height
-		scrollView.contentOffset.y += reference.frame.height
 		self.scrollView.addSubview(textview)
 	}
 
@@ -114,32 +117,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	@objc func keyboardWillHide(_ notification: Notification) {
 		self.view.frame.origin.y = 0
 	}
-	
-//	func scrollTextView(velocity: CGFloat) {
-//		for textview in textviews {
-//			textview.center.y += velocity
-//		}
-//	}
-//	@objc func handlePan(sender: UIPanGestureRecognizer) {
-//		if sender.state == .changed {
-//			let velocity = sender.velocity(in: self.view)
-//			if textviews[0].center.y + velocity.y/10 >= message.normalHeight - 50 {
-//				scrollTextView(velocity: velocity.y/10)
-//				currentVelocity = Int(velocity.y/10)
-//			}
-//		} else if sender.state == .ended {
-//			UIView.animate(withDuration: TimeInterval(currentVelocity/100), animations: {
-//				self.currentVelocity -= self.currentVelocity/100
-//				if Int(self.textviews[0].center.y) + self.currentVelocity/10 >= Int(self.message.normalHeight - 50) {
-//					self.scrollTextView(velocity: CGFloat(self.currentVelocity/10))
-//				}
-//
-//				if sender.state == .began {
-//					return
-//				}
-//			})
-//		}
-//	}
+
 
 }
 

@@ -11,6 +11,7 @@ import UIKit
 
 class Messages {
 	let manager: Manager
+	var staticHeight = 0
 	let normalWidth = UIScreen.main.bounds.width * 0.9
 	let normalHeight = UIScreen.main.bounds.height * 0.9
 	
@@ -21,18 +22,13 @@ class Messages {
 	}
 	
 	func setupTextView(_ textview: inout UITextView, _ text: String, _ x: Int, _ y: Int) {
-		// CGRectMake has been deprecated - and should be let, not var
 		textview.isScrollEnabled = false
-//		let fixedWidth = UIScreen.main.bounds.width
-//		let newSize = textview.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-//		textview.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
-		textview.translatesAutoresizingMaskIntoConstraints = true
 		textview.font = UIFont.preferredFont(forTextStyle: .footnote)
 		textview.textColor = .black
-		textview.center = CGPoint(x: 0, y: y)
 		textview.textAlignment = .center
 		textview.isEditable = false
 		textview.text = text
+		textview.center = CGPoint(x: 0, y: y)
 		let fixedWidth = UIScreen.main.bounds.width
 		let newSize = textview.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
 		textview.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
@@ -41,13 +37,13 @@ class Messages {
 	func createTextView() -> [UITextView] {
 		let lines = manager.getRelevantLines()
 		var mytextviews = [UITextView]()
-		var y = 0
 		for index in stride(from: lines.count - 1, to: 0, by: -1) {
 			var textview = UITextView()
-			setupTextView(&textview, lines[index], 0, y)
+			setupTextView(&textview, lines[index], 0, staticHeight)
 			mytextviews.append(textview)
-			y += Int(textview.frame.height)
+			staticHeight += Int(textview.frame.height)
 		}
+		print(mytextviews[mytextviews.count - 1].center.y)
 		
 		return mytextviews
 	}
@@ -61,6 +57,7 @@ class Messages {
 		sampleTextField.keyboardType = UIKeyboardType.default
 		sampleTextField.clearButtonMode = UITextField.ViewMode.whileEditing;
 		sampleTextField.enablesReturnKeyAutomatically = true
+		sampleTextField.autocapitalizationType = .none
 		
 		let y = normalHeight
 		let x = screenWidth/2
