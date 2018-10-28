@@ -24,10 +24,11 @@ extension DispatchQueue {
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
-	//MARK: Properties
+	// MARK: Properties
 	var textField = UITextField()
 	var textviews = [UITextView]()
-	let message = Messages()
+	let messageManager = MessageManager()
+	let textfield = TextField()
 	let scrollView = UIScrollView()
 	let scrollKeyboard = UIScrollView()
 
@@ -37,8 +38,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	var keyboardHidden = true
 	var keyboardSize = 0
 	
-	override func viewDidLoad() {
-		super.viewDidLoad()
+	// MARK: private function
+	fileprivate func setupTextview() {
+		for message in messageManager.mytextviews {
+			self.scrollView.addSubview(message.textview)
+			scrollView.contentSize.height += message.textview.frame.height
+		}
+	}
+
+	fileprivate func setupScrollview() {
 		// Do any additional setup after loading the view, typically from a nib.
 		
 		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.025, width: screenWidth, height: screenHeight * 0.85)
@@ -46,66 +54,73 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		
 		scrollKeyboard.frame = CGRect(x: 0, y: screenHeight * 0.8, width: screenWidth, height: screenHeight * 0.5)
 		scrollKeyboard.contentSize = CGSize(width: screenWidth, height: 0)
-
-		
-		view.backgroundColor = .white
-
-		textviews = message.createTextView()
-
-		textField = message.createTextField()
-		textField.delegate = self
-
-		for textview in textviews {
-			self.scrollView.addSubview(textview)
-			scrollView.contentSize.height += textview.frame.height
-		}
-		scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height - screenHeight * 0.8)
-		
-		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: self.view.window)
-		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: self.view.window)
-		
-		self.view.addSubview(scrollKeyboard)
-		self.view.addSubview(scrollView)
-		self.view.addSubview(textField)
-		
 	}
 	
-	func getPath() -> [CChar] {
+	fileprivate func getPath() -> [CChar] {
 		let homeDirURL = URL(fileURLWithPath: NSHomeDirectory())
 		var parsed = homeDirURL.absoluteString.replacingOccurrences(of: "file://", with: "")
 		parsed += "Documents/lines.txt"
 		return parsed.cString(using: .utf8)!
 	}
-
-	func addTextView(_ text : String) {
-		var textview = UITextView()
-		message.setupTextView(&textview, text, 0, message.staticHeight)
-		message.staticHeight += Int(textview.frame.height)
+	
+	fileprivate func addTextView(_ text : String) {
+		let message = Message(text, 0, messageManager.staticHeight)
+		messageManager.staticHeight += Int(message.textview.frame.height)
 		
-		scrollView.contentSize.height += textview.frame.height
-		scrollView.contentOffset.y += textview.frame.height
-
-		textviews.append(textview)
-		self.scrollView.addSubview(textview)
+		scrollView.contentSize.height += message.textview.frame.height
+		scrollView.contentOffset.y += message.textview.frame.height
+		
+		messageManager.mytextviews.append(message)
+		self.scrollView.addSubview(message.textview)
 	}
-
-	func sendRequest(_ textField: UITextField) {
-		let cchar = textField.text!.cString(using: .utf8)
+	
+	fileprivate func sendRequest(_ keyboardText: UITextField) {
+		let cchar = keyboardText.text!.cString(using: .utf8)
 		let cpath = getPath()
-		addTextView("You: " + textField.text!)
-
+		addTextView("You: " + keyboardText.text!)
+		
 		var response = String()
 		DispatchQueue.background(background: {
 			response = String(cString: sendGetRequest(cchar, cpath))
 		}, completion:{
 			self.addTextView("Computer: " + response)
 		})
-
-		textField.text = ""
+		
+		keyboardText.text = ""
 	}
 	
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		sendRequest(textField)
+	fileprivate func setupKeyboard() {
+		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: self.view.window)
+		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: self.view.window)
+	}
+	
+	
+	// MARK: viewDidLoad
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		setupScrollview()
+		
+		
+		view.backgroundColor = .white
+		textfield.sampleTextField.delegate = self
+		
+		setupTextview()
+		scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height - screenHeight * 0.8)
+		
+		
+		setupKeyboard()
+		
+		
+		self.view.addSubview(scrollKeyboard)
+		self.view.addSubview(scrollView)
+		self.view.addSubview(textfield.sampleTextField)
+		
+	}
+	
+
+	// MARK: Actions
+	func textFieldShouldReturn(_ keyboardText: UITextField) -> Bool {
+		sendRequest(keyboardText)
 		return true
 	}
 	
