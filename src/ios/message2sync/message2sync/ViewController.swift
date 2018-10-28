@@ -25,7 +25,6 @@ extension DispatchQueue {
 class ViewController: UIViewController, UITextFieldDelegate {
 
 	// MARK: Properties
-	var textField = UITextField()
 	var textviews = [UITextView]()
 	let messageManager = MessageManager()
 	let textfield = TextField()

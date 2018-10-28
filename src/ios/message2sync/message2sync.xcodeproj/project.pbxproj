@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0909406C217B5B2400B38215 /* SendRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094919CE217B574500095802 /* SendRequest.cpp */; };
 		09094074217B681600B38215 /* SendRequest.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 094919CD217B574500095802 /* SendRequest.hpp */; };
+		091F49E92185CA0200E2A93D /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091F49E82185CA0200E2A93D /* TextField.swift */; };
+		091F49EB2185CB7100E2A93D /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091F49EA2185CB7100E2A93D /* MessageManager.swift */; };
 		0950A086217B2C6D00359595 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950A085217B2C6D00359595 /* AppDelegate.swift */; };
 		0950A088217B2C6D00359595 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950A087217B2C6D00359595 /* ViewController.swift */; };
 		0950A08D217B2C7100359595 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0950A08C217B2C7100359595 /* Assets.xcassets */; };
@@ -16,7 +18,7 @@
 		0950A09B217B2C7200359595 /* message2syncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950A09A217B2C7200359595 /* message2syncTests.swift */; };
 		0950A0B0217B51DB00359595 /* command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0950A0AF217B51DB00359595 /* command.cpp */; };
 		09A991CA2180F94E0036C8F9 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A991C92180F94E0036C8F9 /* Manager.swift */; };
-		09A991CC2180F95F0036C8F9 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A991CB2180F95F0036C8F9 /* Messages.swift */; };
+		09A991CC2180F95F0036C8F9 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A991CB2180F95F0036C8F9 /* Message.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		091F49E82185CA0200E2A93D /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		091F49EA2185CB7100E2A93D /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		094919CD217B574500095802 /* SendRequest.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SendRequest.hpp; sourceTree = "<group>"; };
 		094919CE217B574500095802 /* SendRequest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SendRequest.cpp; sourceTree = "<group>"; };
 		0950A082217B2C6D00359595 /* message2sync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = message2sync.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,7 +48,7 @@
 		0950A0AA217B2CF100359595 /* wrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wrapper.h; sourceTree = "<group>"; };
 		0950A0AF217B51DB00359595 /* command.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = command.cpp; sourceTree = "<group>"; };
 		09A991C92180F94E0036C8F9 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
-		09A991CB2180F95F0036C8F9 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		09A991CB2180F95F0036C8F9 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		09E338BA217B818600210A68 /* message2sync-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "message2sync-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,6 +77,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		091F49EC2185CD1C00E2A93D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				091F49E82185CA0200E2A93D /* TextField.swift */,
+				09A991CB2180F95F0036C8F9 /* Message.swift */,
+				091F49EA2185CB7100E2A93D /* MessageManager.swift */,
+				09A991C92180F94E0036C8F9 /* Manager.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		0950A079217B2C6D00359595 = {
 			isa = PBXGroup;
 			children = (
@@ -95,12 +110,11 @@
 		0950A084217B2C6D00359595 /* message2sync */ = {
 			isa = PBXGroup;
 			children = (
+				0950A0A5217B2C8B00359595 /* core */,
+				0950A0A9217B2CDF00359595 /* bridger */,
+				091F49EC2185CD1C00E2A93D /* Components */,
 				0950A085217B2C6D00359595 /* AppDelegate.swift */,
 				0950A087217B2C6D00359595 /* ViewController.swift */,
-				09A991C92180F94E0036C8F9 /* Manager.swift */,
-				09A991CB2180F95F0036C8F9 /* Messages.swift */,
-				0950A0A9217B2CDF00359595 /* bridger */,
-				0950A0A5217B2C8B00359595 /* core */,
 				0950A08C217B2C7100359595 /* Assets.xcassets */,
 				0950A08E217B2C7100359595 /* LaunchScreen.storyboard */,
 				0950A091217B2C7100359595 /* Info.plist */,
@@ -250,11 +264,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0909406C217B5B2400B38215 /* SendRequest.cpp in Sources */,
-				09A991CC2180F95F0036C8F9 /* Messages.swift in Sources */,
+				09A991CC2180F95F0036C8F9 /* Message.swift in Sources */,
 				0950A088217B2C6D00359595 /* ViewController.swift in Sources */,
+				091F49E92185CA0200E2A93D /* TextField.swift in Sources */,
 				0950A086217B2C6D00359595 /* AppDelegate.swift in Sources */,
 				0950A0B0217B51DB00359595 /* command.cpp in Sources */,
 				09A991CA2180F94E0036C8F9 /* Manager.swift in Sources */,
+				091F49EB2185CB7100E2A93D /* MessageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
