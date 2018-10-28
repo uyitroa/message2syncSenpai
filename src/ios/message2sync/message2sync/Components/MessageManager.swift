@@ -12,7 +12,7 @@ import UIKit
 class MessageManager {
 	var staticHeight = 0
 	let manager: Manager
-	var mytextviews = [Message]()
+	var messages = [Message]()
 	init() {
 		manager = Manager()
 		createTextView()
@@ -28,8 +28,8 @@ class MessageManager {
 		}
 		for index in stride(from: max, to: 0, by: -1) {
 			let message = Message(lines[index], 0, staticHeight)
-			mytextviews.append(message)
-			staticHeight += Int(message.textview.frame.height)
+			staticHeight += Int(message.textview.frame.height) + 10
+			messages.append(message)
 		}
 	}
 }

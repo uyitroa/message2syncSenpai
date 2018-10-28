@@ -33,7 +33,7 @@ class Manager {
 	
 	func getRelevantLines() -> [String] {
 		let text = readData()
-		var myList = text.split(separator: "\n")
+		var myList = text.components(separatedBy: "\\\\\\\\")
 		myList.insert("", at: 0) // to prevent empty myList which leads error of `for`
 		var result = [String]()
 		// get the 5 last elements of list
@@ -43,5 +43,18 @@ class Manager {
 
 		return result
 	}
+	
+	func removeFile() {
+		let filemgr = FileManager.default
+		let dirPaths = filemgr.urls(for: .documentDirectory, in: .userDomainMask)
+		var docsURL = dirPaths[0].path
+		docsURL += "/\(filename)"
+		do {
+			try filemgr.removeItem(atPath: docsURL)
+		} catch let error {
+			print("Error: \(error.localizedDescription)")
+		}
+	}
+
 	
 }

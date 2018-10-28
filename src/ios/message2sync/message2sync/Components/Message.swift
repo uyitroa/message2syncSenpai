@@ -26,6 +26,7 @@ class Message {
 		textview.textColor = .black
 		textview.textAlignment = .center
 		textview.isEditable = false
+		textview.textAlignment = .justified
 		textview.text = text
 		textview.center = CGPoint(x: 0, y: y)
 		let fixedWidth = UIScreen.main.bounds.width

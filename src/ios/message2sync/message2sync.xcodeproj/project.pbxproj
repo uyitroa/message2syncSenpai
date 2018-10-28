@@ -17,6 +17,8 @@
 		0950A090217B2C7100359595 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0950A08E217B2C7100359595 /* LaunchScreen.storyboard */; };
 		0950A09B217B2C7200359595 /* message2syncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950A09A217B2C7200359595 /* message2syncTests.swift */; };
 		0950A0B0217B51DB00359595 /* command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0950A0AF217B51DB00359595 /* command.cpp */; };
+		09A30C4C218615A80048CF7B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A30C4B218615A80048CF7B /* ChatViewController.swift */; };
+		09A30C4E218621410048CF7B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A30C4D218621410048CF7B /* MenuViewController.swift */; };
 		09A991CA2180F94E0036C8F9 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A991C92180F94E0036C8F9 /* Manager.swift */; };
 		09A991CC2180F95F0036C8F9 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A991CB2180F95F0036C8F9 /* Message.swift */; };
 /* End PBXBuildFile section */
@@ -47,6 +49,8 @@
 		0950A09C217B2C7200359595 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0950A0AA217B2CF100359595 /* wrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wrapper.h; sourceTree = "<group>"; };
 		0950A0AF217B51DB00359595 /* command.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = command.cpp; sourceTree = "<group>"; };
+		09A30C4B218615A80048CF7B /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		09A30C4D218621410048CF7B /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		09A991C92180F94E0036C8F9 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		09A991CB2180F95F0036C8F9 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		09E338BA217B818600210A68 /* message2sync-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "message2sync-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -110,6 +114,7 @@
 		0950A084217B2C6D00359595 /* message2sync */ = {
 			isa = PBXGroup;
 			children = (
+				09A30C4A218615950048CF7B /* ViewControllers */,
 				0950A0A5217B2C8B00359595 /* core */,
 				0950A0A9217B2CDF00359595 /* bridger */,
 				091F49EC2185CD1C00E2A93D /* Components */,
@@ -148,6 +153,15 @@
 				0950A0AA217B2CF100359595 /* wrapper.h */,
 			);
 			path = bridger;
+			sourceTree = "<group>";
+		};
+		09A30C4A218615950048CF7B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				09A30C4B218615A80048CF7B /* ChatViewController.swift */,
+				09A30C4D218621410048CF7B /* MenuViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,6 +284,8 @@
 				0950A086217B2C6D00359595 /* AppDelegate.swift in Sources */,
 				0950A0B0217B51DB00359595 /* command.cpp in Sources */,
 				09A991CA2180F94E0036C8F9 /* Manager.swift in Sources */,
+				09A30C4C218615A80048CF7B /* ChatViewController.swift in Sources */,
+				09A30C4E218621410048CF7B /* MenuViewController.swift in Sources */,
 				091F49EB2185CB7100E2A93D /* MessageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
