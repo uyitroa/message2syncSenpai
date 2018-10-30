@@ -10,8 +10,9 @@ import UIKit
 
 class MenuTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	private let myArray: NSArray = ["", "Setting"]
+	private let tmpVC = SettingViewController()
 	private var myTableView: UITableView!
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -28,8 +29,9 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		print("Num: \(indexPath.row)")
-		print("Value: \(myArray[indexPath.row])")
+		if indexPath.row == 1 {
+			self.view.superview?.addSubview(tmpVC.view)
+		}
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

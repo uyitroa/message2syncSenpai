@@ -12,13 +12,14 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	// MARK: Properties
 	var textviews = [UITextView]()
 	let messageManager = MessageManager()
-	
-	let textfield = TextField()
-	let scrollView = UIScrollView()
-	let scrollKeyboard = UIScrollView()
-	
+
 	let screenWidth = UIScreen.main.bounds.width
 	let screenHeight = UIScreen.main.bounds.height
+	
+	let textfield = TextField(placeholder: "Enter text here",
+					x: Float(UIScreen.main.bounds.width/2), y: Float(UIScreen.main.bounds.height * 0.9))
+	let scrollView = UIScrollView()
+	let scrollKeyboard = UIScrollView()
 	
 	var keyboardHidden = true
 	var keyboardSize = CGFloat()

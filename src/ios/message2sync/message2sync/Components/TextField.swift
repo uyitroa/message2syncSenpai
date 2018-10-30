@@ -14,13 +14,13 @@ class TextField {
 	let screenWidth = UIScreen.main.bounds.width
 	
 	var sampleTextField = UITextField()
-	init() {
-		self.createTextField()
+	init(placeholder: String, x: Float, y: Float) {
+		self.createTextField(placeholder: placeholder, x: x, y: y)
 	}
 	
-	func createTextField() {
+	func createTextField(placeholder: String, x: Float, y: Float) {
 		sampleTextField = UITextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * 0.9, height: 30))
-		sampleTextField.placeholder = "Enter text here"
+		sampleTextField.placeholder = placeholder
 		sampleTextField.font = UIFont.systemFont(ofSize: 15)
 		sampleTextField.borderStyle = UITextField.BorderStyle.roundedRect
 		sampleTextField.autocorrectionType = UITextAutocorrectionType.no
