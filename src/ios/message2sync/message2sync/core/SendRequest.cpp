@@ -60,7 +60,7 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 		return "Could not connect";
 	}
 	stringstream ss;
-	ss << "GET /" << data.c_str() << "/" << " HTTP/1.1\r\n"
+	ss << "GET /command/" << data.c_str() << "/" << " HTTP/1.1\r\n"
 	<< "Host: " << url.c_str() << "\r\n"
 	<< "Accept: application/json\r\n"
 	<< "Connection: close\r\n"
