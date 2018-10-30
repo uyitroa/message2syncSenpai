@@ -7,20 +7,6 @@
 //
 import UIKit
 
-extension DispatchQueue {
-	
-	static func background(delay: Double = 0.0, background: (()->Void)? = nil, completion: (() -> Void)? = nil) {
-		DispatchQueue.global(qos: .background).async {
-			background?()
-			if let completion = completion {
-				DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
-					completion()
-				})
-			}
-		}
-	}
-}
-
 class ChatViewController: UIViewController, UITextFieldDelegate  {
 	
 	// MARK: Properties
@@ -46,11 +32,11 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	}
 	
 	private func addTextView(_ text : String) {
-		let message = Message(text, 0, messageManager.staticHeight)
-		messageManager.staticHeight += Int(message.textview.frame.height) + 10
+		let message = Message("\n" + text, 0, messageManager.staticHeight)
+		messageManager.staticHeight += Int(message.textview.frame.height)
 		
 		scrollView.contentSize.height = CGFloat(messageManager.staticHeight)
-		scrollView.contentOffset.y += message.textview.frame.height + 10
+		scrollView.contentOffset.y += message.textview.frame.height
 		messageManager.messages.append(message)
 		self.scrollView.addSubview(message.textview)
 	}
@@ -82,7 +68,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	private func setupScrollview() {
 		// Do any additional setup after loading the view, typically from a nib.
 		
-		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05, width: screenWidth, height: screenHeight * 0.85)
+		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05, width: screenWidth, height: screenHeight * 0.8)
 		scrollView.contentSize = CGSize(width: screenWidth, height: 0)
 		
 		scrollKeyboard.frame = CGRect(x: 0, y: screenHeight * 0.8, width: screenWidth, height: screenHeight * 0.5)
@@ -100,6 +86,17 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		self.view.removeFromSuperview()
 	}
 	
+	func swipeRight() {
+		UIView.animate(withDuration: 0.1) {
+			self.view.frame.origin.x = self.view.frame.width * 0.3
+		}
+	}
+	
+	func swipeLeft() {
+		UIView.animate(withDuration: 0.1) {
+			self.view.frame.origin.x = 0
+		}
+	}
 	
 	
 	
@@ -133,7 +130,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 			let keyboardHeight = keyboardRectangle.height
 			keyboardSize = keyboardHeight
 			self.view.frame.origin.y = -keyboardHeight
-			scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05 + keyboardHeight, width: screenWidth, height: screenHeight * 0.85 - keyboardHeight)
+			scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05 + keyboardHeight, width: screenWidth, height: screenHeight * 0.8 - keyboardHeight)
 			scrollView.contentOffset.y += keyboardHeight
 			self.keyboardHidden = false
 		}
@@ -141,12 +138,9 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	
 	@objc func keyboardWillHide(_ notification: Notification) {
 		self.view.frame.origin.y = 0
-		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05, width: screenWidth, height: screenHeight * 0.85)
+		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05, width: screenWidth, height: screenHeight * 0.8)
 		//		scrollView.contentOffset.y -= keyboardSize
 		self.keyboardHidden = true
 	}
 	
-	@objc func triggerButton() {
-		print("OK")
-	}
 }

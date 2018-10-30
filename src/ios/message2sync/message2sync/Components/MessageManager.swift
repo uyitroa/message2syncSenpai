@@ -28,7 +28,7 @@ class MessageManager {
 		}
 		for index in stride(from: max, to: 0, by: -1) {
 			let message = Message(lines[index], 0, staticHeight)
-			staticHeight += Int(message.textview.frame.height) + 10
+			staticHeight += Int(message.textview.frame.height)
 			messages.append(message)
 		}
 	}
