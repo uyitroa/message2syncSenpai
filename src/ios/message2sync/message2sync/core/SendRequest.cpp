@@ -32,7 +32,7 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 
 	ofstream myfile;
 	myfile.open(file, fstream::app);
-	myfile << data << "\n";
+	myfile << data << "\\\\\\\\" << "\n";
 	
 	
 	int sock;
@@ -79,6 +79,7 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 	}
 	getImportant(mychar);
 	myfile << mychar;
+	myfile << "\\\\\\\\";
 	myfile << "\n";
 	myfile.close();
 	return mychar;
