@@ -11,6 +11,7 @@
 		09094074217B681600B38215 /* SendRequest.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 094919CD217B574500095802 /* SendRequest.hpp */; };
 		091F49E92185CA0200E2A93D /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091F49E82185CA0200E2A93D /* TextField.swift */; };
 		091F49EB2185CB7100E2A93D /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091F49EA2185CB7100E2A93D /* MessageManager.swift */; };
+		09292EA12188E9FC008C3013 /* ParentMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09292EA02188E9FC008C3013 /* ParentMenuViewController.swift */; };
 		0950A086217B2C6D00359595 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950A085217B2C6D00359595 /* AppDelegate.swift */; };
 		0950A088217B2C6D00359595 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950A087217B2C6D00359595 /* ViewController.swift */; };
 		0950A08D217B2C7100359595 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0950A08C217B2C7100359595 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		091F49E82185CA0200E2A93D /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		091F49EA2185CB7100E2A93D /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
+		09292EA02188E9FC008C3013 /* ParentMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentMenuViewController.swift; sourceTree = "<group>"; };
 		094919CD217B574500095802 /* SendRequest.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SendRequest.hpp; sourceTree = "<group>"; };
 		094919CE217B574500095802 /* SendRequest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SendRequest.cpp; sourceTree = "<group>"; };
 		0950A082217B2C6D00359595 /* message2sync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = message2sync.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,6 +165,7 @@
 				09A30C4B218615A80048CF7B /* ChatViewController.swift */,
 				09A30C4D218621410048CF7B /* MenuTableViewController.swift */,
 				098884102188B06800DE5D73 /* SettingViewController.swift */,
+				09292EA02188E9FC008C3013 /* ParentMenuViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0909406C217B5B2400B38215 /* SendRequest.cpp in Sources */,
+				09292EA12188E9FC008C3013 /* ParentMenuViewController.swift in Sources */,
 				098884112188B06800DE5D73 /* SettingViewController.swift in Sources */,
 				09A991CC2180F95F0036C8F9 /* Message.swift in Sources */,
 				0950A088217B2C6D00359595 /* ViewController.swift in Sources */,

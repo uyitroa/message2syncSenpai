@@ -17,7 +17,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	let screenHeight = UIScreen.main.bounds.height
 	
 	let textfield = TextField(placeholder: "Enter text here",
-					x: Float(UIScreen.main.bounds.width/2), y: Float(UIScreen.main.bounds.height * 0.9))
+					x: Int(UIScreen.main.bounds.width/2), y: Int(UIScreen.main.bounds.height * 0.9))
 	let scrollView = UIScrollView()
 	let scrollKeyboard = UIScrollView()
 	

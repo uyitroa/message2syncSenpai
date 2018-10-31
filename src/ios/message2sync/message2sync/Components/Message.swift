@@ -26,6 +26,7 @@ class Message {
 		textview.textColor = .black
 		textview.textAlignment = .center
 		textview.isEditable = false
+		textview.dataDetectorTypes = .all
 		textview.textAlignment = .justified
 		textview.text = text
 		textview.center = CGPoint(x: 0, y: y)

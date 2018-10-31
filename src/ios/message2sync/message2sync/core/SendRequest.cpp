@@ -34,6 +34,15 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 	myfile.open(file, fstream::app);
 	myfile << data << "\\\\\\\\" << "\n";
 	
+	std::string stringbuilder = "";
+	
+	for (int index = 0; index < data.size(); index++) {
+		if (data[index] == '/') {
+			stringbuilder += "*_*_";
+		} else {
+			stringbuilder += data[index];
+		}
+	}
 	
 	int sock;
 	struct sockaddr_in client;
@@ -60,7 +69,7 @@ std::string SendRequest::sendpost(std::string data, std::string file, std::strin
 		return "Could not connect";
 	}
 	stringstream ss;
-	ss << "GET /command/" << data.c_str() << "/" << " HTTP/1.1\r\n"
+	ss << "GET /command/" << stringbuilder.c_str() << "/" << " HTTP/1.1\r\n"
 	<< "Host: " << url.c_str() << "\r\n"
 	<< "Accept: application/json\r\n"
 	<< "Connection: close\r\n"

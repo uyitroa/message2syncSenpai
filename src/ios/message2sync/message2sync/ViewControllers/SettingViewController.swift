@@ -8,20 +8,29 @@
 
 import UIKit
 
-class SettingViewController: UIViewController, UITextFieldDelegate {
+class SettingViewController: ParentMenuViewController {
 	
-	let xServerField = 0
+	let xServerField = UIScreen.main.bounds.width/2
 	let yServerField = UIScreen.main.bounds.height * 0.2
+	let scrollView = UIScrollView()
+	
+	private func setupTextField() {
+		let textfield = TextField(placeholder: "Enter server address here",
+								  x: Int(xServerField), y: Int(yServerField))
+		textfield.sampleTextField.delegate = self
+		self.scrollView.addSubview(textfield.sampleTextField)
+	}
+	
+	private func setupScrollView() {
+		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05, width: screenWidth, height: screenHeight * 0.8)
+		scrollView.contentSize = CGSize(width: screenWidth, height: 0)
+		self.menuView.addSubview(scrollView)
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let textfield = TextField(placeholder: "Enter server address here",
-						x: Float(xServerField), y: Float(yServerField))
-		textfield.sampleTextField.delegate = self
-		self.view.addSubview(textfield.sampleTextField)
+		setupScrollView()
+		setupTextField()
 	}
-	
-	func rmSubview() {
-		self.view.removeFromSuperview()
-	}
+
 }
