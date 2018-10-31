@@ -16,6 +16,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
 	let xServerField = UIScreen.main.bounds.width/2
 	let yServerField = UIScreen.main.bounds.height * 0.2
 	let scrollView = UIScrollView()
+	var myview: UIView!
 	
 	private func setupTextField() {
 		let textfield = TextField(placeholder: "Enter server address here",
@@ -27,11 +28,18 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
 	private func setupScrollView() {
 		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05, width: screenWidth, height: screenHeight * 0.8)
 		scrollView.contentSize = CGSize(width: screenWidth, height: 0)
-		self.view.addSubview(scrollView)
+		self.myview.addSubview(scrollView)
 	}
 
+	fileprivate func setupView() {
+		myview = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
+		myview.backgroundColor = .white
+		self.view.addSubview(myview)
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		setupView()
 		setupScrollView()
 		setupTextField()
 	}

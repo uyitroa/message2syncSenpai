@@ -15,6 +15,8 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 	
 	private var screenWidth: CGFloat!
 	private var screenHeight: CGFloat!
+	
+	private let settingVC = SettingViewController()
 
 	private func setupTableView() {
 		let barHeight: CGFloat = UIScreen.main.bounds.height * 0.05
@@ -78,7 +80,7 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 	
 	// MARK: actions
 	@objc func openSetting() {
-		
+		self.view.superview?.addSubview(settingVC.view)
 	}
 
 	// MARK: rm subview
