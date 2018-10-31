@@ -67,10 +67,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	@objc func menuButtonTrigger() {
 		if settingOpened {
 			settingOpened = false
-			chatVC.swipeRight()
+			chatVC.swipeLeft()
 		} else {
 			settingOpened = true
-			chatVC.swipeLeft()
+			chatVC.swipeRight()
 		}
 	}
 	
@@ -79,7 +79,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 			chatVC.swipeRight()
 			settingOpened = true
 		}
-		
+
 		if gesture.direction == UISwipeGestureRecognizer.Direction.left {
 			chatVC.swipeLeft()
 			settingOpened = false

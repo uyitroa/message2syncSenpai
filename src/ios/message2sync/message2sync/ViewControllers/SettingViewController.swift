@@ -8,7 +8,10 @@
 
 import UIKit
 
-class SettingViewController: ParentMenuViewController {
+class SettingViewController: UIViewController, UITextFieldDelegate {
+	
+	let screenWidth = UIScreen.main.bounds.width
+	let screenHeight = UIScreen.main.bounds.height
 	
 	let xServerField = UIScreen.main.bounds.width/2
 	let yServerField = UIScreen.main.bounds.height * 0.2
@@ -24,13 +27,17 @@ class SettingViewController: ParentMenuViewController {
 	private func setupScrollView() {
 		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05, width: screenWidth, height: screenHeight * 0.8)
 		scrollView.contentSize = CGSize(width: screenWidth, height: 0)
-		self.menuView.addSubview(scrollView)
+		self.view.addSubview(scrollView)
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupScrollView()
 		setupTextField()
+	}
+	
+	func rmSubview() {
+		self.view.removeFromSuperview()
 	}
 
 }

@@ -9,27 +9,56 @@ import UIKit
 
 
 class MenuTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-	private let myArray: NSArray = ["", "Setting"]
-	private let arrayVC: [ParentMenuViewController] = [SettingViewController()]
+	private let myArray: NSArray = ["server1", "server2", "server3", "server4", "server5", "Add server +"]
 	private var myTableView: UITableView!
+	private var toolBar: UIToolbar!
+	
+	private var screenWidth: CGFloat!
+	private var screenHeight: CGFloat!
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
+	private func setupTableView() {
+		let barHeight: CGFloat = UIScreen.main.bounds.height * 0.05
+		screenWidth = self.view.frame.width
+		screenHeight = self.view.frame.height
 		
-		let barHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height
-		let displayWidth: CGFloat = self.view.frame.width * 0.3
-		let displayHeight: CGFloat = self.view.frame.height
-		
-		myTableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
+		myTableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: screenWidth * 0.5, height: screenHeight - barHeight),
+								  style: .grouped)
 		myTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
 		myTableView.dataSource = self
 		myTableView.delegate = self
-		myTableView.backgroundColor = UIColor.black
+		myTableView.backgroundColor = .white
 		self.view.addSubview(myTableView)
 	}
 	
+	private func setupToolBar() {
+		let barHeight: CGFloat = UIScreen.main.bounds.height * 0.075
+		toolBar = UIToolbar(frame: CGRect(x: 0, y: screenHeight * 0.925, width: screenWidth * 0.5, height: barHeight))
+		toolBar.backgroundColor = .white
+		self.view.addSubview(toolBar)
+	}
+	
+	private func setupButton() {
+		let settingButton = UIButton(type: .system)
+		settingButton.addTarget(self, action: #selector(MenuTableViewController.openSetting), for: .touchUpInside)
+		settingButton.setImage(UIImage(named: "setting")?.withRenderingMode(.alwaysOriginal), for: .normal)
+		
+		let items: [UIBarButtonItem] = [UIBarButtonItem(customView: settingButton)]
+		toolBar.items = items
+		
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		setupTableView()
+		setupToolBar()
+		setupButton()
+	}
+	
+	
+	
+	// MARK: table view functions
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.view.superview?.addSubview(arrayVC[indexPath.row - 1].view)
+		print(myArray[indexPath.row])
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,9 +68,19 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
 		cell.textLabel!.text = "\(myArray[indexPath.row])"
-		cell.backgroundColor = UIColor.gray
+		cell.backgroundColor = UIColor.white
 		return cell
 	}
+	
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return 1
+	}
+	
+	// MARK: actions
+	@objc func openSetting() {
+		
+	}
+
 	// MARK: rm subview
 	func rmSubview() {
 		self.view.removeFromSuperview()
