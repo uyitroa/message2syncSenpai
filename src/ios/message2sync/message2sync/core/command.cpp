@@ -9,6 +9,9 @@
 #include <stdio.h>
 #include "SendRequest.hpp"
 #include "../bridger/wrapper.h"
+#include <sys/types.h>
+#include <dirent.h>
+#include <sqlite3.h>
 
 const char* sendGetRequest(const char *message, const char *file) {
 	SendRequest sendRequest;
@@ -18,4 +21,15 @@ const char* sendGetRequest(const char *message, const char *file) {
 	
 	msg = sendRequest.sendpost(msg, file);
 	return strdup(msg.c_str());
+}
+
+const char* getServers(const char *filename) {
+	DIR* dirp = opendir(filename);
+	struct dirent * dp;
+	std::string stringbuilder = "";
+	while ((dp = readdir(dirp)) != NULL) {
+		stringbuilder += "\n" + std::string(dp->d_name);
+	}
+	closedir(dirp);
+	return stringbuilder.c_str();
 }

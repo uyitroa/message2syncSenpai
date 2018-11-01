@@ -9,6 +9,7 @@
 extern "C" {
 #endif
 	const char* sendGetRequest(const char *message, const char *file);
+	const char* getServers(const char *filename);
 #ifdef __cplusplus
 }
 #endif

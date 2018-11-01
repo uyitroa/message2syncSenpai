@@ -10,7 +10,7 @@ import Foundation
 
 class Manager {
 	var filename = String()
-	init(filename: String = "lines.txt") {
+	init(filename: String = "message2sync.db") {
 		self.filename = filename
 	}
 	

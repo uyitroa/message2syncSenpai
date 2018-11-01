@@ -29,8 +29,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	let chatVC = ChatViewController()
 	let settingMenuVC = MenuTableViewController()
 	var barHeight = 0
-	var swipeRight = UISwipeGestureRecognizer()
-	var swipeLeft = UISwipeGestureRecognizer()
+	var swipeRight: UISwipeGestureRecognizer!
+	var swipeLeft: UISwipeGestureRecognizer!
 	
 	// MARK: properties
 	var settingOpened = false
