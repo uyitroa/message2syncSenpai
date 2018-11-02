@@ -66,7 +66,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		
 		keyboardText.text = ""
 	}
-	
+
 	// MARK: setup functions
 	func setupTextview() {
 		for message in messageManager.messages {
