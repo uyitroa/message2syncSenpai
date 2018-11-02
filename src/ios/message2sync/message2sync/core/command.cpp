@@ -35,15 +35,10 @@ const char* sendGetRequest(const char *message, const char *file) {
 }
 
 const void* initializeDeta(const char *filename) {
-	Deta *deta = new Deta(filename);
-	return (void *)deta;
+	static Deta deta(filename);
+	std::cout << &deta << "\n";
+	return (void *)&deta;
 }
-
-void deleteDeta(const void* object) {
-	Deta *deta = objectConverter(object);
-	delete deta;
-}
-
 
 int getNumberLines(const void *object, const char *server) {
 	Deta *deta = objectConverter(object);

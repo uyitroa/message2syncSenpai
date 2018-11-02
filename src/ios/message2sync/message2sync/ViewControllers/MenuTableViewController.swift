@@ -112,11 +112,6 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 		setupAddTextField()
 	}
 	
-	deinit {
-		print("deleting deta")
-		deleteDeta(detaPointer)
-	}
-	
 	
 	// MARK: functions implemented
 	func updateCell(text: String) {

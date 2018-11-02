@@ -17,10 +17,6 @@ class Manager {
 		openDeta()
 	}
 	
-	deinit {
-		deleteDeta(detaPointer)
-	}
-	
 	func openDeta() {
 		
 		if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
