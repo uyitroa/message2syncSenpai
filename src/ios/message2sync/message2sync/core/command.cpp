@@ -6,12 +6,23 @@
 //  Copyright © 2018 yuitora . All rights reserved.
 //
 //
+#include "../bridger/wrapper.h"
+
 #include <stdio.h>
 #include "SendRequest.hpp"
-#include "../bridger/wrapper.h"
+#include "Deta.hpp"
 #include <sys/types.h>
 #include <dirent.h>
-#include <sqlite3.h>
+
+Deta* objectConverter(const void *object) {
+	return (Deta *)object;
+}
+
+const char* allocateCString(std::string result) {
+	char *output = new char[result.size() + 1];
+	strcpy(output, result.c_str());
+	return output;
+}
 
 const char* sendGetRequest(const char *message, const char *file) {
 	SendRequest sendRequest;
@@ -23,13 +34,52 @@ const char* sendGetRequest(const char *message, const char *file) {
 	return strdup(msg.c_str());
 }
 
-const char* getServers(const char *filename) {
-	DIR* dirp = opendir(filename);
-	struct dirent * dp;
-	std::string stringbuilder = "";
-	while ((dp = readdir(dirp)) != NULL) {
-		stringbuilder += "\n" + std::string(dp->d_name);
-	}
-	closedir(dirp);
-	return stringbuilder.c_str();
+const void* initializeDeta(const char *filename) {
+	Deta *deta = new Deta(filename);
+	return (void *)deta;
+}
+
+void deleteDeta(const void* object) {
+	Deta *deta = objectConverter(object);
+	delete deta;
+}
+
+
+int getNumberLines(const void *object, const char *server) {
+	Deta *deta = objectConverter(object);
+	return deta->getNumberLines(server);
+}
+
+const char* readLine(const void *object, int id, const char *server) {
+	Deta *deta = objectConverter(object);
+	return allocateCString(deta->readLine(id, server));
+}
+
+void writeLine(const void *object, const char *line, const char *server) {
+	Deta *deta = objectConverter(object);
+	deta->writeLine(line, server);
+}
+
+void updateLastServer(const void *object, const char *servername) {
+	Deta *deta = objectConverter(object);
+	deta->updateLastServer(servername);
+}
+
+const char* getLastServer(const void *object) {
+	Deta *deta = objectConverter(object);
+	return allocateCString(deta->getLastServer());
+}
+
+const char* getServers(const void *object) {
+	Deta *deta = objectConverter(object);
+	return allocateCString(deta->getServers());
+}
+
+void createServerTable(const void *object, const char *servername) {
+	Deta *deta = objectConverter(object);
+	deta->createServerTable(servername);
+}
+
+void freeChar(const char *character) {
+	delete character;
 }

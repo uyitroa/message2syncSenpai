@@ -13,20 +13,20 @@ class MessageManager {
 	var staticHeight = 0
 	let manager: Manager
 	var messages = [Message]()
-	init() {
+	init(server: String) {
 		manager = Manager()
-		createTextView()
+		createTextView(server)
 	}
 	
-	func createTextView() {
-		let lines = manager.getRelevantLines()
+	func createTextView(_ server: String) {
+		let lines = manager.getRelevantLines(server)
 		var max: Int
 		if lines.count > 20 {
 			max = 20
 		} else {
 			max = lines.count - 1
 		}
-		for index in stride(from: max, to: 0, by: -1) {
+		for index in 0...max{
 			let message = Message(lines[index], 0, staticHeight)
 			staticHeight += Int(message.textview.frame.height)
 			messages.append(message)

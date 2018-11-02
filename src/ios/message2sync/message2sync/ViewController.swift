@@ -23,6 +23,27 @@ extension DispatchQueue {
 	}
 }
 
+extension UIView {
+	var parentViewController: UIViewController? {
+		var parentResponder: UIResponder? = self
+		while parentResponder != nil {
+			parentResponder = parentResponder!.next
+			if let viewController = parentResponder as? UIViewController {
+				return viewController
+			}
+		}
+		return nil
+	}
+}
+
+extension UIViewController {
+	@objc func load(input: String) {
+		print(input)
+	}
+}
+
+
+
 class ViewController: UIViewController, UITextFieldDelegate {
 	
 	// MARK: viewcontrollers
@@ -33,7 +54,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	var swipeLeft: UISwipeGestureRecognizer!
 	
 	// MARK: properties
+	private final let MENUTABLEVIEWCONTROLLER = "0"
 	var settingOpened = false
+	
+	
 	
 	// MARK: setup
 	private func setupNavigationBar() {
@@ -52,6 +76,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		swipeLeft.direction = .left
 	}
 	
+	
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupNavigationBar()
@@ -61,6 +87,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		self.view.addSubview(chatVC.view)
 		self.view.addGestureRecognizer(swipeRight)
 		self.view.addGestureRecognizer(swipeLeft)
+	}
+	
+	
+	// Custom function
+
+	@objc override func load(input: String) {
+		let myArray = input.split(separator: ":")
+		if myArray[0] == MENUTABLEVIEWCONTROLLER {
+			doMenuVC(input: myArray)
+		}
+		
+	}
+	
+	func doMenuVC(input: [String.SubSequence]) {
+		if input[1] == "change server to" {
+			chatVC.setupScrollview() // reload it
+			chatVC.messageManager = MessageManager(server: String(input[2]))
+			chatVC.setupTextview()
+		}
 	}
 	
 	// MARK: action

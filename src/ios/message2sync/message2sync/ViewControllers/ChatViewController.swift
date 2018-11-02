@@ -11,7 +11,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	
 	// MARK: Properties
 	var textviews = [UITextView]()
-	let messageManager = MessageManager()
+	var messageManager: MessageManager!
 
 	let screenWidth = UIScreen.main.bounds.width
 	let screenHeight = UIScreen.main.bounds.height
@@ -24,15 +24,25 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	var keyboardHidden = true
 	var keyboardSize = CGFloat()
 	
-	// MARK: private function
-	private func getPath() -> [CChar] {
+	var detaPointer: UnsafeMutableRawPointer!
+	
+	// MARK: function
+	func getPath() -> [CChar] {
 		let homeDirURL = URL(fileURLWithPath: NSHomeDirectory())
 		var parsed = homeDirURL.absoluteString.replacingOccurrences(of: "file://", with: "")
-		parsed += "/Documents/lines.txt"
+		parsed += "/Documents/message2sync.db"
 		return parsed.cString(using: .utf8)!
 	}
 	
-	private func addTextView(_ text : String) {
+	func convertToString(cString: UnsafePointer<Int8>) -> String {
+		let string = String(cString: cString)
+		freeChar(cString)
+		return string
+	}
+	
+	func addTextView(_ text : String) {
+		writeLine(detaPointer, text, convertToString(cString: getLastServer(detaPointer)))
+
 		let message = Message("\n" + text, 0, messageManager.staticHeight)
 		messageManager.staticHeight += Int(message.textview.frame.height)
 		
@@ -42,7 +52,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		self.scrollView.addSubview(message.textview)
 	}
 	
-	private func sendRequest(_ keyboardText: UITextField) {
+	func sendRequest(_ keyboardText: UITextField) {
 		let cchar = keyboardText.text!.cString(using: .utf8)
 		let cpath = getPath()
 		addTextView("You: " + keyboardText.text!)
@@ -58,7 +68,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	}
 	
 	// MARK: setup functions
-	private func setupTextview() {
+	func setupTextview() {
 		for message in messageManager.messages {
 			self.scrollView.addSubview(message.textview)
 		}
@@ -66,7 +76,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height - screenHeight * 0.8)
 	}
 	
-	private func setupScrollview() {
+	func setupScrollview() {
 		// Do any additional setup after loading the view, typically from a nib.
 		
 		scrollView.frame = CGRect(x: 0, y: screenHeight * 0.05, width: screenWidth, height: screenHeight * 0.8)
@@ -76,9 +86,18 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		scrollKeyboard.contentSize = CGSize(width: screenWidth, height: 0)
 	}
 	
-	private func setupKeyboard() {
+	func setupKeyboard() {
 		NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: self.view.window)
 		NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: self.view.window)
+	}
+	
+	fileprivate func setupDeta() {
+		if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+			let fileURL = dir.appendingPathComponent("message2sync.db")
+			print(fileURL.absoluteString)
+			detaPointer = UnsafeMutableRawPointer(mutating: initializeDeta(fileURL.absoluteString.cString(using: .utf8)))
+			messageManager = MessageManager(server: convertToString(cString: getLastServer(detaPointer)))
+		}
 	}
 	
 	
@@ -106,7 +125,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		super.viewDidLoad()
 		view.backgroundColor = .white
 		textfield.sampleTextField.delegate = self
-		
+		setupDeta()
 		setupScrollview()
 		setupTextview()
 		setupKeyboard()

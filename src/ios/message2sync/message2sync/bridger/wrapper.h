@@ -9,7 +9,18 @@
 extern "C" {
 #endif
 	const char* sendGetRequest(const char *message, const char *file);
-	const char* getServers(const char *filename);
+	const void* initializeDeta(const char *filename);
+	const char* readLine(const void *object, int ide, const char *server);
+	void writeLine(const void *object, const char *line, const char *server);
+	int getNumberLines(const void *object, const char *server);
+	
+	void updateLastServer(const void *object, const char *servername);
+	const char* getLastServer(const void *object);
+	const char* getServers(const void *object);
+	
+	void createServerTable(const void *object, const char *servername);
+	void deleteDeta(const void *object);
+	void freeChar(const char *character);
 #ifdef __cplusplus
 }
 #endif

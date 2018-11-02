@@ -19,7 +19,7 @@ class Message {
 	init(_ text: String, _ x: Int, _ y: Int) {
 		setupTextView(text, x, y)
 	}
-	
+
 	func setupTextView(_ text: String, _ x: Int, _ y: Int) {
 		textview.isScrollEnabled = false
 		textview.font = UIFont.preferredFont(forTextStyle: .footnote)

@@ -10,38 +10,36 @@ import Foundation
 
 class Manager {
 	var filename = String()
+	var detaPointer: UnsafeMutableRawPointer!
+
 	init(filename: String = "message2sync.db") {
 		self.filename = filename
+		openDeta()
 	}
 	
-	func readData() -> String {
-		var text = String()
+	deinit {
+		deleteDeta(detaPointer)
+	}
+	
+	func openDeta() {
 		
 		if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
 			let fileURL = dir.appendingPathComponent(filename)
-			print(fileURL.absoluteString)
-			do {
-				text = try String(contentsOf: fileURL, encoding: .utf8)
-			}
-			catch {
-				print("Error info: \(error)")
-			}
+			detaPointer = UnsafeMutableRawPointer(mutating: initializeDeta(fileURL.absoluteString.cString(using: .utf8)))
 		}
-		
-		return text
 	}
 	
-	func getRelevantLines() -> [String] {
-		let text = readData()
-		var myList = text.components(separatedBy: "\\\\\\\\")
-		myList.insert("", at: 0) // to prevent empty myList which leads error of `for`
-		var result = [String]()
-		// get the 5 last elements of list
-		for arrayIndex in (myList.count-1) * -1...0 {
-			result.append(String(myList[-arrayIndex]))
+	func getRelevantLines(_ server: String) -> [String] {
+		var myList: [String] = [""]
+ 
+		let maxID = getNumberLines(detaPointer, server.cString(using: .utf8))
+		if maxID == -1 {
+			return myList
 		}
-
-		return result
+		for id in 0...maxID {
+			myList.append(String(cString: readLine(detaPointer, id, server.cString(using: .utf8))))
+		}
+		return myList
 	}
 	
 	func removeFile() {

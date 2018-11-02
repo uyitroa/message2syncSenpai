@@ -25,6 +25,17 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 	var textfield: TextField!
 	var myview: UIView!
 	
+	var detaPointer: UnsafeMutableRawPointer!
+	
+	
+	private func convertToString(cString: UnsafePointer<Int8>) -> String {
+		let string = String(cString: cString)
+		freeChar(cString)
+		return string
+	}
+	
+	
+	
 	// MARK: setup functions
 	private func setupAddTextField() {
 		let xServerField = UIScreen.main.bounds.width/2
@@ -52,6 +63,7 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 		myTableView.delegate = self
 		myTableView.backgroundColor = .white
 		self.view.addSubview(myTableView)
+		print("finisehd setup tableview")
 	}
 	
 	private func setupToolBar() {
@@ -71,16 +83,27 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 	}
 	
 	private func setupArray() {
+		let output = String(cString: getServers(detaPointer), encoding: .utf8)
+		for mystring in output!.split(separator: "|") {
+			myArray.insert(String(mystring), at: 0)
+		}
+	}
+	
+	fileprivate func setupDeta() {
 		if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-			let fileURL = dir.absoluteString + "/message2sync/serverChat/"
-			let input = fileURL.cString(using: .utf8)
-			let output = getServers(input)
+			let fileURL = dir.appendingPathComponent("message2sync.db")
+			print(fileURL.absoluteString)
+			detaPointer = UnsafeMutableRawPointer(mutating: initializeDeta(fileURL.absoluteString.cString(using: .utf8)))
 		}
 	}
 	
 	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		setupDeta()
+		setupArray()
+		
 		setupTableView()
 		setupToolBar()
 		setupButton()
@@ -89,12 +112,18 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 		setupAddTextField()
 	}
 	
+	deinit {
+		print("deleting deta")
+		deleteDeta(detaPointer)
+	}
 	
 	
 	// MARK: functions implemented
 	func updateCell(text: String) {
 		// Update Table Data
 		myArray.insert(text, at: 0)
+		createServerTable(detaPointer, text.cString(using: .utf8))
+		
 		myTableView.beginUpdates()
 		myTableView.insertRows(at: [
 			NSIndexPath(row: 0, section: 0) as IndexPath], with: .automatic)
@@ -107,6 +136,9 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == myArray.count - 1 {
 			self.view.superview?.addSubview(myview)
+		} else {
+			self.view.superview?.parentViewController?.load(input: "0:change server to:" + myArray[indexPath.row])
+			updateLastServer(detaPointer, myArray[indexPath.row].cString(using: .utf8))
 		}
 	}
 	
@@ -117,13 +149,16 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
 		cell.textLabel!.text = "\(myArray[indexPath.row])"
+		if myArray[indexPath.row] == convertToString(cString: getLastServer(detaPointer)) {
+			tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+		}
 		cell.backgroundColor = UIColor.white
 		return cell
 	}
 	
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
+//	func numberOfSections(in tableView: UITableView) -> Int {
+//		return 1
+//	}
 
 	
 	
