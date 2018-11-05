@@ -47,17 +47,34 @@ extension UIViewController {
 class ViewController: UIViewController, UITextFieldDelegate {
 	
 	// MARK: viewcontrollers
-	let chatVC = ChatViewController()
-	let settingMenuVC = MenuTableViewController()
+	var chatVC = [ChatViewController]()
+	var chatServer = [String]()
+	
+	var settingMenuVC: MenuTableViewController!
+	var detaPointer: UnsafeMutableRawPointer!
+	
 	var barHeight = 0
 	var swipeRight: UISwipeGestureRecognizer!
 	var swipeLeft: UISwipeGestureRecognizer!
 	
 	// MARK: properties
+	var currentIndex = 0
 	private final let MENUTABLEVIEWCONTROLLER = "0"
 	var settingOpened = false
 	
 	
+	private func convertToString(cString: UnsafePointer<Int8>) -> String {
+		let string = String(cString: cString)
+		freeChar(cString)
+		return string
+	}
+	
+	private func getPath() -> [CChar] {
+		let homeDirURL = URL(fileURLWithPath: NSHomeDirectory())
+		var parsed = homeDirURL.absoluteString.replacingOccurrences(of: "file://", with: "")
+		parsed += "/Documents/message2sync.db"
+		return parsed.cString(using: .utf8)!
+	}
 	
 	// MARK: setup
 	private func setupNavigationBar() {
@@ -76,15 +93,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		swipeLeft.direction = .left
 	}
 	
+	private func setupChatVC() {
+		let lastserver = convertToString(cString: getLastServer(detaPointer))
+		chatVC.append(ChatViewController(server: lastserver))
+		chatServer.append(lastserver)
+		self.view.addSubview(chatVC[0].view)
+	}
 	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		detaPointer = UnsafeMutableRawPointer(mutating: initializeDeta(getPath()))
+		settingMenuVC = MenuTableViewController()
 		setupNavigationBar()
-		
 		setupGesture()
+		setupChatVC()
 		self.view.addSubview(settingMenuVC.view)
-		self.view.addSubview(chatVC.view)
 		self.view.addGestureRecognizer(swipeRight)
 		self.view.addGestureRecognizer(swipeLeft)
 	}
@@ -102,9 +126,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
 	func doMenuVC(input: [String.SubSequence]) {
 		if input[1] == "change server to" {
-			chatVC.setupScrollview() // reload it
-			chatVC.messageManager = MessageManager(server: String(input[2]))
-			chatVC.setupTextview()
+			chatVC[currentIndex].rmSubview()
+			if let stringIndex = chatServer.firstIndex(where: { $0 == String(input[2])}) {
+				currentIndex = stringIndex
+			} else {
+				chatVC.append(ChatViewController(server: String(input[2])))
+				currentIndex = chatVC.count - 1
+			}
+			self.view.addSubview(chatVC[currentIndex].view)
 		}
 	}
 	
@@ -112,21 +141,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	@objc func menuButtonTrigger() {
 		if settingOpened {
 			settingOpened = false
-			chatVC.swipeLeft()
+			chatVC[currentIndex].swipeLeft()
 		} else {
 			settingOpened = true
-			chatVC.swipeRight()
+			chatVC[currentIndex].swipeRight()
 		}
 	}
 	
 	@objc func moveChat(_ gesture: UISwipeGestureRecognizer) {
 		if gesture.direction == UISwipeGestureRecognizer.Direction.right {
-			chatVC.swipeRight()
+			chatVC[currentIndex].swipeRight()
 			settingOpened = true
 		}
 
 		if gesture.direction == UISwipeGestureRecognizer.Direction.left {
-			chatVC.swipeLeft()
+			chatVC[currentIndex].swipeLeft()
 			settingOpened = false
 		}
 	}

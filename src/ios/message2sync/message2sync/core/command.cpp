@@ -24,13 +24,13 @@ const char* allocateCString(std::string result) {
 	return output;
 }
 
-const char* sendGetRequest(const char *message, const char *file) {
+const char* sendGetRequest(const char *message, const char *file, const char *server) {
 	SendRequest sendRequest;
 
 	std::string msg = message;
 	msg = "You: " + msg;
 	
-	msg = sendRequest.sendpost(msg, file);
+	msg = sendRequest.sendpost(msg, file, server + std::string(".localtunnel.me"));
 	return strdup(msg.c_str());
 }
 

@@ -8,7 +8,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-	const char* sendGetRequest(const char *message, const char *file);
+	const char* sendGetRequest(const char *message, const char *file, const char *server);
 	const void* initializeDeta(const char *filename);
 	const char* readLine(const void *object, int ide, const char *server);
 	void writeLine(const void *object, const char *line, const char *server);

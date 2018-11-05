@@ -26,6 +26,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	
 	var detaPointer: UnsafeMutableRawPointer!
 	
+	var server: String!
+	
 	// MARK: function
 	func getPath() -> [CChar] {
 		let homeDirURL = URL(fileURLWithPath: NSHomeDirectory())
@@ -34,14 +36,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		return parsed.cString(using: .utf8)!
 	}
 	
-	func convertToString(cString: UnsafePointer<Int8>) -> String {
-		let string = String(cString: cString)
-		freeChar(cString)
-		return string
-	}
-	
 	func addTextView(_ text : String) {
-		writeLine(detaPointer, text, convertToString(cString: getLastServer(detaPointer)))
+		writeLine(detaPointer, text, server)
 
 		let message = Message("\n" + text, 0, messageManager.staticHeight)
 		messageManager.staticHeight += Int(message.textview.frame.height)
@@ -59,7 +55,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		
 		var response = String()
 		DispatchQueue.background(background: {
-			response = String(cString: sendGetRequest(cchar, cpath))
+			response = String(cString: sendGetRequest(cchar, cpath, self.server.cString(using: .utf8)))
 		}, completion:{
 			self.addTextView("Computer: " + response)
 		})
@@ -96,7 +92,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 			let fileURL = dir.appendingPathComponent("message2sync.db")
 			print(fileURL.absoluteString)
 			detaPointer = UnsafeMutableRawPointer(mutating: initializeDeta(fileURL.absoluteString.cString(using: .utf8)))
-			messageManager = MessageManager(server: convertToString(cString: getLastServer(detaPointer)))
+			messageManager = MessageManager(server: server)
 		}
 	}
 	
@@ -119,6 +115,11 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	}
 	
 	
+	
+	convenience init(server: String) {
+		self.init(nibName: nil, bundle: nil)
+		self.server = server
+	}
 	
 	// MARK: viewDidLoad
 	override func viewDidLoad() {
