@@ -54,7 +54,7 @@ std::string Deta::readLine(int id, std::string server) {
 
 void Deta::writeLine(std::string line, std::string server) {
 	int id = getNumberLines(server) + 1;
-	insert(server, "id, text", std::to_string(id) + ", '" + line + "'");
+	insert(server, "id, text", std::to_string(id) + ", \"" + line + "\"");
 }
 
 void Deta::updateLastServer(std::string servername) {
