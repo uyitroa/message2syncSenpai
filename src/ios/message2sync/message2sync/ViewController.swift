@@ -43,7 +43,6 @@ extension UIViewController {
 }
 
 
-
 class ViewController: UIViewController, UITextFieldDelegate {
 	
 	// MARK: viewcontrollers

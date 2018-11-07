@@ -67,6 +67,9 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	func setupTextview() {
 		for message in messageManager.messages {
 			self.scrollView.addSubview(message.textview)
+			if message.hasImage {
+				self.scrollView.addSubview(message.image)
+			}
 		}
 		scrollView.contentSize.height = CGFloat(messageManager.staticHeight)
 		scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height - screenHeight * 0.8)

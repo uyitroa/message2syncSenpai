@@ -151,11 +151,6 @@ class MenuTableViewController: UIViewController, UITableViewDelegate, UITableVie
 		return cell
 	}
 	
-//	func numberOfSections(in tableView: UITableView) -> Int {
-//		return 1
-//	}
-
-	
 	
 	
 	
