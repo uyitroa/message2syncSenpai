@@ -103,6 +103,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	}
 	
 	func swipeRight() {
+		self.view.endEditing(true)
 		UIView.animate(withDuration: 0.1) {
 			self.view.frame.origin.x = self.view.frame.width * 0.5
 		}
@@ -131,6 +132,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 		setupTextview()
 		setupKeyboard()
 		
+		self.view.frame.origin.x = self.view.frame.width * 0.5
 		self.view.addSubview(scrollKeyboard)
 		self.view.addSubview(scrollView)
 		self.view.addSubview(textfield.sampleTextField)

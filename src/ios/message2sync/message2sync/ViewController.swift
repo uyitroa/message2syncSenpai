@@ -105,10 +105,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		super.viewDidLoad()
 		detaPointer = UnsafeMutableRawPointer(mutating: initializeDeta(getPath()))
 		settingMenuVC = MenuTableViewController()
+		self.view.addSubview(settingMenuVC.view)
 		setupNavigationBar()
 		setupGesture()
 		setupChatVC()
-		self.view.addSubview(settingMenuVC.view)
 		self.view.addGestureRecognizer(swipeRight)
 		self.view.addGestureRecognizer(swipeLeft)
 	}
@@ -131,6 +131,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 				currentIndex = stringIndex
 			} else {
 				chatVC.append(ChatViewController(server: String(input[2])))
+				chatServer.append(String(input[2]))
 				currentIndex = chatVC.count - 1
 			}
 			self.view.addSubview(chatVC[currentIndex].view)
