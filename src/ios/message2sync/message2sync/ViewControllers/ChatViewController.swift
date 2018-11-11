@@ -18,7 +18,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 	
 	let textfield = TextField(placeholder: "Enter text here",
 					x: Int(UIScreen.main.bounds.width/2), y: Int(UIScreen.main.bounds.height * 0.9))
-	let scrollView = UIScrollView()
+	var scrollView = UIScrollView()
 	let scrollKeyboard = UIScrollView()
 	
 	var keyboardHidden = true
@@ -96,6 +96,22 @@ class ChatViewController: UIViewController, UITextFieldDelegate  {
 			print(fileURL.absoluteString)
 			detaPointer = UnsafeMutableRawPointer(mutating: initializeDeta(fileURL.absoluteString.cString(using: .utf8)))
 			messageManager = MessageManager(server: server)
+		}
+	}
+	
+	@objc override func load(input: String) {
+		let command = input.components(separatedBy: "; ")
+		if command[0] == "loaded image" {
+			print("reseting scrollview")
+
+			// reset scrollView
+			self.scrollView.subviews.forEach { $0.removeFromSuperview() }
+			self.scrollView.removeFromSuperview()
+			self.scrollView = UIScrollView()
+			self.view.addSubview(self.scrollView)
+
+			setupScrollview()
+			setupTextview()
 		}
 	}
 	

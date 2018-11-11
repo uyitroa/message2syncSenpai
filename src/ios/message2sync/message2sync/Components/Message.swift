@@ -33,9 +33,14 @@ class Message {
 		getData(from: url) { data, response, error in
 			guard let data = data, error == nil else { return }
 			print(response?.suggestedFilename ?? url.lastPathComponent)
-			print("Download Finished")
 			DispatchQueue.main.async() {
 				self.image.image = UIImage(data: data)
+				print("Download Finished")
+
+				// first superview is scrollView
+				// second superview is ChatView
+				self.image.superview?.superview?.parentViewController?.load(input: "loaded image; ")
+				self.height += Int(self.image.frame.height)
 			}
 		}
 	}
@@ -63,10 +68,8 @@ class Message {
 			hasImage = true
 			image = UIImageView()
 			image.contentMode = .scaleAspectFit
-			
 			let text = text.components(separatedBy: ": ")[1] // to separate Computer and url
 			downloadImage(from: URL(string: text)!)
-			height += Int(image.frame.height)
 		}
 	}
 }
